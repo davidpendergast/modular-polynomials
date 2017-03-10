@@ -1,6 +1,9 @@
+package polynomials;
+import static polynomials.Utils.*;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Polynomial {
@@ -32,7 +35,7 @@ public class Polynomial {
         }
         
         coefficients = new ArrayList<Integer>();
-        padWithZeros(terms.size(), coefficients);
+        padWithZeros(coefficients, terms.size());
         for (String term : terms) {
             int coef = 0;
             int pow = 0;
@@ -51,17 +54,11 @@ public class Polynomial {
                 pow = Integer.parseInt(parts[1]);
             }
             if (getDegree() < pow) {
-                padWithZeros(pow+1, coefficients);
+                padWithZeros(coefficients, pow+1);
             }
             coefficients.set(pow, mod(coef + coefficients.get(pow), mod));
         }
         removeLeadingZeros();
-    }
-    
-    private static void padWithZeros(int newLength, List<Integer> list) {
-        while (list.size() < newLength) {
-            list.add(0);
-        }
     }
     
     public Polynomial(int mod, List<Integer> coefficients) {
@@ -71,7 +68,6 @@ public class Polynomial {
                 .map(i -> mod(i, mod))
                 .collect(Collectors.toList());
         removeLeadingZeros();
-        
     }
     
     private void removeLeadingZeros() {
@@ -96,6 +92,7 @@ public class Polynomial {
         }
     }
     
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (int i = getDegree(); i >= 0; i--) {
@@ -122,17 +119,31 @@ public class Polynomial {
         }
     }
     
-    public static int mod(int val, int mod) {
-        return (((val % mod) + mod) % mod); // thanks java
+    @Override
+    public boolean equals(Object other) {
+        if (other instanceof Polynomial) {
+            Polynomial p = (Polynomial)other;
+            if (p.getModulus() != getModulus()) {
+                return false;
+            } else {
+                return p.coefficients.equals(coefficients);
+            }
+        } else {
+            return false;
+        }
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(getModulus(), coefficients);
     }
     
     public static void main(String[] args) {
         String input = "2x^2 + x^6 - 5x^6 + 19 + 12 + x^1 + x^12";
-        int mod = 10;
+        int mod = 9;
         System.out.println("mod="+mod+", input="+input);
         Polynomial p = new Polynomial(mod, input);
         System.out.println(p);
-        
     }
 
 }
