@@ -75,6 +75,18 @@ public class Polynomial {
         removeLeadingZeros();
     }
     
+    public boolean isZero() {
+        return coefficients.size() == 0;
+    }
+    
+    public static Polynomial ZERO(int m) {
+        return new Polynomial(m, "0");
+    }
+    
+    public static Polynomial ONE(int m) {
+        return new Polynomial(m, "1");
+    }
+    
     private void removeLeadingZeros() {
         while (coefficients.size() > 0 && getCoefficient(getDegree()) == 0) {
             coefficients.remove(coefficients.size()-1);
@@ -94,6 +106,14 @@ public class Polynomial {
             return 0;
         } else {
             return mod(coefficients.get(pow), getModulus());
+        }
+    }
+    
+    public int getLeadingCoefficient() {
+        if (getDegree() == -1) {
+            return 0;
+        } else {
+            return getCoefficient(getDegree());
         }
     }
     

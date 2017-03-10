@@ -41,6 +41,26 @@ public class PolyMath {
         return new Polynomial(p1.getModulus(), c);
     }
     
+    /**
+     * Returns two polynomials {Q(x), R(x)} such that n = Q(x)*d + R(x) and 
+     * deg(R(x)) < deg(d)
+     * 
+     */
+    public static Polynomial[] divide(Polynomial n, Polynomial d) {
+        checkMods(n, d);
+        if (d.isZero()) {
+            throw new IllegalArgumentException("Divisor cannot be zero.");
+        }
+        
+        Polynomial q = Polynomial.ZERO(n.getModulus());
+        Polynomial r = n;
+        while (!r.isZero() && r.getDegree() >= d.getDegree()) {
+            
+        }
+        
+        return new Polynomial[] {q, r};
+    }
+    
     public static Polynomial pow(Polynomial p, int n) {
         if (n == 0) {
             return new Polynomial(p.getModulus(), "1");
