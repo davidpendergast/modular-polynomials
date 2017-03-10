@@ -1,13 +1,13 @@
 package polynomials;
 
-public class QuotientGroup {
+public class QuotientRing {
     
     private Polynomial poly;
     
     /**
      * Constructs the quotient group F_m[x]/p(x)
      */
-    public QuotientGroup(Polynomial base) {
+    public QuotientRing(Polynomial base) {
         this.poly = base;
     }
     
