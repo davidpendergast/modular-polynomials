@@ -44,6 +44,12 @@ public class Polynomial {
                 pow = 0;
             } else if (!term.contains("^")) {
                 term = term.substring(0, term.indexOf("x"));
+                pow = 1;
+                if (term.equals("")) {
+                    coef = 1;
+                } else {
+                    coef = Integer.parseInt(term);
+                }
             } else {
                 String[] parts = term.split("x\\^");
                 if (parts[0].equals("")) {
@@ -63,7 +69,6 @@ public class Polynomial {
     
     public Polynomial(int mod, List<Integer> coefficients) {
         this.mod = mod;
-        Runnable x = () -> {System.out.println("yo");};
         this.coefficients = coefficients.stream()
                 .map(i -> mod(i, mod))
                 .collect(Collectors.toList());
@@ -88,7 +93,7 @@ public class Polynomial {
         if (pow < 0 || pow >= coefficients.size()) {
             return 0;
         } else {
-            return coefficients.get(pow);
+            return mod(coefficients.get(pow), getModulus());
         }
     }
     

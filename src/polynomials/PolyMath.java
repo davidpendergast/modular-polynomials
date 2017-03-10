@@ -24,4 +24,32 @@ public class PolyMath {
         }
         return new Polynomial(p1.getModulus(), c);
     }
+    
+    public static Polynomial multiply(Polynomial p1, Polynomial p2) {
+        checkMods(p1, p2);
+        
+        int deg = p1.getDegree() + p2.getDegree();
+        List<Integer> c = new ArrayList<Integer>();
+        padWithZeros(c, deg+1);
+        
+        for (int i = 0; i <= p1.getDegree(); i++) {
+            for (int j = 0; j <= p2.getDegree(); j++) {
+                int val = p1.getCoefficient(i) * p2.getCoefficient(j);
+                c.set(i+j, val + c.get(i+j));
+            }
+        }
+        return new Polynomial(p1.getModulus(), c);
+    }
+    
+    public static Polynomial pow(Polynomial p, int n) {
+        if (n == 0) {
+            return new Polynomial(p.getModulus(), "1");
+        } else {
+            Polynomial res = new Polynomial(p.getModulus(), "1");
+            for (int i = 0; i < n; i++) {
+                res = multiply(res, p);
+            }
+            return res;
+        }
+    }
 }
