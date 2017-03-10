@@ -117,6 +117,30 @@ public class Polynomial {
         }
     }
     
+    public List<Integer> getCoefficients() {
+        return new ArrayList<Integer>(coefficients);
+    }
+    
+    public Polynomial leadingTerm() {
+        int coef = getLeadingCoefficient();
+        if (coef == 0) {
+            return ZERO(getModulus());
+        } else {
+            int deg = getDegree();
+            return new Polynomial(getModulus(), coef + "x^" + deg);
+        }
+    }
+    
+    public int numTerms() {
+        int num = 0;
+        for (Integer c : coefficients) {
+            if (c != 0) {
+                num++;
+            }
+        }
+        return num;
+    }
+    
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

@@ -2,6 +2,8 @@ package polynomials;
 
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
+
 import org.junit.Test;
 
 public class TestPolyMath {
@@ -23,13 +25,19 @@ public class TestPolyMath {
                 + "161 x^9 + 23 x^8 + 23 x^7 + 49 x^4 - 28 x^3 + 136 x^2 - "
                 + "17 x - 20");
         Polynomial res = PolyMath.multiply(p1, p2);
-        System.out.println(res.getModulus());
         assertEquals(expected, res);
     }
     
     @Test
+    public void testDivide() {
+        Polynomial n = p(13, "x^2+x");
+        Polynomial d = p(13, "x^2 + 3");
+        System.out.println(Arrays.toString(PolyMath.divide(n, d)));
+    }
+    
+    @Test
     public void testPow() {
-        Polynomial p = p(15, "x^2 - 3x + 7");
+        Polynomial p = p(15, "x^2 - 3x + 7x^0");
         int n = 3;
         Polynomial expected = p(15, "x^6 - 9 x^5 + 48 x^4 - 153 x^3 + 336 x^2 - 441 x + 343");
         Polynomial res = PolyMath.pow(p, n);

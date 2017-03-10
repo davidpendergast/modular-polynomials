@@ -13,5 +13,14 @@ public class Utils {
             list.add(0);
         }
     }
+    
+    /**
+     * Returns
+     */
+    public static int[] divide(int n, int d) {
+        int q = n / d;
+        int r = n - d*q;
+        return new int[] {q, r};
+    }
 
 }
