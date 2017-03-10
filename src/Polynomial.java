@@ -31,7 +31,37 @@ public class Polynomial {
             }
         }
         
-        System.out.println(terms);
+        coefficients = new ArrayList<Integer>();
+        padWithZeros(terms.size(), coefficients);
+        for (String term : terms) {
+            int coef = 0;
+            int pow = 0;
+            if (!term.contains("x")) {
+                coef = Integer.parseInt(term); 
+                pow = 0;
+            } else if (!term.contains("^")) {
+                term = term.substring(0, term.indexOf("x"));
+            } else {
+                String[] parts = term.split("x\\^");
+                if (parts[0].equals("")) {
+                    coef = 1;
+                } else {
+                    coef = Integer.parseInt(parts[0]);
+                }
+                pow = Integer.parseInt(parts[1]);
+            }
+            if (getDegree() < pow) {
+                padWithZeros(pow+1, coefficients);
+            }
+            coefficients.set(pow, mod(coef + coefficients.get(pow), mod));
+        }
+        removeLeadingZeros();
+    }
+    
+    private static void padWithZeros(int newLength, List<Integer> list) {
+        while (list.size() < newLength) {
+            list.add(0);
+        }
     }
     
     public Polynomial(int mod, List<Integer> coefficients) {
@@ -97,13 +127,12 @@ public class Polynomial {
     }
     
     public static void main(String[] args) {
-        List<Integer> list = Arrays.asList(2,4,0,6,3,2);
-        Polynomial p = new Polynomial(3, list);
+        String input = "2x^2 + x^6 - 5x^6 + 19 + 12 + x^1 + x^12";
+        int mod = 10;
+        System.out.println("mod="+mod+", input="+input);
+        Polynomial p = new Polynomial(mod, input);
         System.out.println(p);
         
-        String input = "mod=3, 3x^3 + x^4 - 5x^6 + 9";
-        System.out.println(input);
-        new Polynomial(3, input);
     }
 
 }
