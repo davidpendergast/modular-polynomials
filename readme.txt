@@ -1,0 +1,1 @@
+Just a quick little calculator I made to help perform computations on polynomial quotient rings/finite fields.
