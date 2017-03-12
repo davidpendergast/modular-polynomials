@@ -1,6 +1,9 @@
-package polynomials;
+package testing;
 
 import org.junit.Test;
+
+import polynomials.Polynomial;
+import polynomials.QuotientRing;
 
 public class TestQuotientRing {
     

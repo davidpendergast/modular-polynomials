@@ -1,10 +1,13 @@
-package polynomials;
+package testing;
 
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
 
 import org.junit.Test;
+
+import polynomials.PolyMath;
+import polynomials.Polynomial;
 
 public class TestPolyMath {
     
