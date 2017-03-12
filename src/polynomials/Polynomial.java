@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class Polynomial {
+public class Polynomial implements Comparable<Polynomial>{
     
     private int mod;
     private List<Integer> coefficients;
@@ -185,6 +185,19 @@ public class Polynomial {
     @Override
     public int hashCode() {
         return Objects.hash(getModulus(), coefficients);
+    }
+    
+    public int compareTo(Polynomial other) {
+        if (other.getDegree() != getDegree()) {
+            return getDegree() - other.getDegree();
+        } else {
+            for (int i = getDegree(); i >= 0; i--) {
+                if (other.getCoefficient(i) != getCoefficient(i)) {
+                    return getCoefficient(i) - other.getCoefficient(i);
+                }
+            }
+            return 0;
+        }
     }
     
     public static void main(String[] args) {

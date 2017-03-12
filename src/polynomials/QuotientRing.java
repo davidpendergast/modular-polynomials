@@ -1,5 +1,9 @@
 package polynomials;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class QuotientRing {
     
     private Polynomial poly;
@@ -47,6 +51,39 @@ public class QuotientRing {
     
     public Polynomial getQuotient() {
         return poly;
+    }
+    
+    public List<Polynomial> getElements() {
+        List<Polynomial> res = new ArrayList<Polynomial>();
+        int m = getModulus();
+        Polynomial zero = Polynomial.ZERO(m);
+        res.add(zero);
+        
+        List<Integer> coefs = new ArrayList<Integer>();
+        Utils.padWithZeros(coefs, poly.getDegree());
+        coefs.set(0, 1);
+        
+        Polynomial p = new Polynomial(m, coefs);
+        while(!p.equals(zero)) {
+            res.add(p);
+            increment(coefs, m);
+            p = new Polynomial(m, coefs);
+        }
+        
+        Collections.sort(res);
+        return res;
+    }
+    
+    private static void increment(List<Integer> coefs, int mod) {
+        for (int i = 0; i < coefs.size(); i++) {
+            if (coefs.get(i) < mod - 1) {
+                coefs.set(i, coefs.get(i) + 1);
+                return;
+            } else {
+                coefs.set(i, 0);
+            }
+        }
+        return;
     }
     
     public String toString() {
