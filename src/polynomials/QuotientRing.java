@@ -3,16 +3,19 @@ package polynomials;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class QuotientRing {
     
-    private Polynomial poly;
+    private final Polynomial poly;
+    private final int size;
     
     /**
      * Constructs the quotient group F_m[x]/p(x)
      */
     public QuotientRing(Polynomial base) {
         this.poly = base;
+        this.size = getElements().size();
     }
     
     public Polynomial add(Polynomial p1, Polynomial p2) {
@@ -72,6 +75,38 @@ public class QuotientRing {
         
         Collections.sort(res);
         return res;
+    }
+    
+    public int size() {
+        return size;
+    }
+    
+    public boolean isPrimitive(Polynomial p) {
+        return getOrder(p) == size()-1;
+    }
+    
+    public List<Polynomial> getPrimatives() {
+        return getElements().stream().filter(p -> isPrimitive(p))
+                .collect(Collectors.toList());
+    }
+    
+    public int getOrder(Polynomial p) {
+        modCheck(p);
+        if (p.isZero()) {
+            return 0;
+        }
+        int size = size();
+        Polynomial pToTheN = p;
+        Polynomial one = Polynomial.ONE(getModulus());
+        int n = 1;
+        while (!pToTheN.equals(one)) {
+            if (pToTheN.isZero() || n > size()) {
+                return -1; // this isn't even a field
+            }
+            pToTheN = reduce(PolyMath.multiply(pToTheN, p));
+            n++;
+        }
+        return n;
     }
     
     private static void increment(List<Integer> coefs, int mod) {
